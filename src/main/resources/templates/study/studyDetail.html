@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" defer></script>
+</head>
+<body>
+
+<div th:replace="~{layouts/nav :: nav}"></div>
+
+
+<!-- Content -->
+<section th:object="${study}" class="container">
+    <div class="mt-5  ">
+        <div class="shadow border-opacity-25 rounded p-5 row mt-5">
+            <div class="col-6">
+                <div >
+                    <h1 th:text="*{title}">제목</h1>
+                </div>
+
+                <div class="mt-2">
+                    <p th:text="*{shortDesc}" class="fw-semibold"></p>
+                </div>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <p>작성자</p>
+            </div>
+            <div class="col-12">
+                <a class="text-primary text-decoration-none">스터디</a>
+                <a class="text-primary text-decoration-none">구성원</a>
+                <a class="text-primary text-decoration-none">설정</a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between gap-2 mt-2 ">
+            <div>
+                <a th:href="@{/study}" class="btn btn-outline-primary">목록으로</a>
+            </div>
+            <div>
+                <a class="btn btn-outline-secondary" th:href="@{/study/edit/{id}(id = *{id})}">수정</a>
+                <a class="btn btn-outline-danger" th:href="@{/study/delete/{id}(id = *{id})}">삭제</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+</body>
+</html>

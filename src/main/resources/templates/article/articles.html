@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" defer></script>
+</head>
+<body>
+
+<div th:replace="~{layouts/nav :: nav}"></div>
+
+<div th:replace="~{layouts/header :: header(title='게시판')}"></div>
+
+
+<!-- Content -->
+<section class="container">
+    <div class=" mt-5 ">
+        <div class="d-flex justify-content-end w-100">
+            <a href="/articles/new" class="btn btn-outline-primary">새 게시글</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-7">제목</th>
+                <th scope="col" class="col-2">닉네임</th>
+                <th scope="col" class="col-2">작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article : ${articles}" th:object="${article}">
+                <th scope="row" th:text="*{id}">1</th>
+                <td><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black"
+                       style="max-width: 200px" th:href="@{/articles/{id}(id = *{id})}" th:text="*{title}">제목</a></td>
+                <td><a href="#" th:text="*{author}">닉네임</a></td>
+                <td th:text="*{#temporals.format(localDateTime, 'yyyy-MM-dd')}">2023.2.2</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-3">
+            <nav>
+                <ul class="pagination">
+                    <li th:if="${dto.prev}" class="page-item"><a class="page-link"
+                                                                 th:href="@{/articles(page=${dto.prevPage})}">이전</a>
+                    </li>
+                    <li th:each="number : ${dto.pageNumList}" class="page-item"><a class="page-link"
+                                                                                   th:href="@{/articles(page=${number}, size=10)}"
+                                                                                   th:text="${number}">1</a></li>
+                    <li th:if="${dto.next}" class="page-item"><a class="page-link"
+                                                                 th:href="@{/articles(page=${dto.nextPage})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</section>
+
+
+</body>
+</html>

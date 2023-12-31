@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script defer src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quill css import -->
+    <link rel="stylesheet" href="/node_modules/quill/dist/quill.snow.css">
+
+</head>
+<body>
+
+<div th:replace="~{layouts/nav :: nav}"></div>
+
+
+<!-- Content -->
+<!--<section class="container">-->
+<!--    <div class=" d-flex justify-content-center align-items-center mt-5  ">-->
+<!--        <form class="w-75" action="/articles/new" method="post">-->
+<!--            <div class="mb-3">-->
+<!--                <label for="inputTitle" class="form-label">제목</label>-->
+<!--                <input type="text" class="form-control" id="inputTitle" name="title">-->
+<!--                <div id="titleHelp" class="form-text">제목을 30자 이내로 적어주세요.</div>-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="inputContent" class="form-label">내용</label>-->
+<!--                <textarea class="form-control" id="inputContent" name="content"></textarea>-->
+<!--                <div id="contentHelp" class="form-text">게시글 내용을 적어주세요.</div>-->
+<!--            </div>-->
+<!--            <div class="d-grid">-->
+<!--                <button type="submit" class="btn btn-outline-primary">Submit</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</section>-->
+
+<section class="container">
+    <div class=" d-flex justify-content-center align-items-center mt-5  ">
+        <form class="w-75" action="/jdbc/articles/new" method="post">
+            <div class="mb-3">
+                <label for="inputTitle" class="form-label">제목</label>
+                <input type="text" class="form-control" id="inputTitle" name="title">
+                <div id="titleHelp" class="form-text">제목을 30자 이내로 적어주세요.</div>
+            </div>
+            <div class="mb-3">
+                <label for="inputContent" class="form-label">내용</label>
+                <div id="inputContent" style="height: 375px"></div>
+                <input type="hidden" id="quill_html" name="content">
+                <div id="contentHelp" class="form-text">게시글 내용을 적어주세요.</div>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Quill js import -->
+<script src="/node_modules/quill/dist/quill.min.js"></script>
+<script defer>
+    var quill = new Quill('#inputContent', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: '내용을 입력해주세요',
+        theme: 'snow'  // or 'bubble'
+    });
+    quill.on('text-change', () => {
+        document.getElementById("quill_html").value = quill.root.innerHTML
+    })
+</script>
+
+
+
+</body>
+</html>

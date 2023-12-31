@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" defer></script>
+</head>
+<body>
+
+<div th:replace="~{layouts/nav :: nav}"></div>
+
+
+<!-- Content -->
+<section class="container">
+    <div class=" d-flex justify-content-center align-items-center mt-5  ">
+        <form class="w-75" th:action="@{/articles/edit/{id}(id = *{id})}" method="post" th:object="${article}">
+            <div class="mb-3">
+                <label for="inputTitle" class="form-label">제목</label>
+                <input type="text" class="form-control" id="inputTitle" th:value="*{title}" name="title">
+                <div id="titleHelp" class="form-text">수정할 제목을 30자 이내로 적어주세요.</div>
+            </div>
+            <div class="mb-3">
+                <label for="inputContent" class="form-label">내용</label>
+                <textarea class="form-control" id="inputContent" th:text="*{content}" name="content"></textarea>
+                <div id="contentHelp" class="form-text">수정할 내용을 적어주세요.</div>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+</body>
+</html>

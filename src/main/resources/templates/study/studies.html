@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" defer></script>
+</head>
+<body>
+
+<div th:replace="~{layouts/nav :: nav}"></div>
+
+
+<div th:replace="~{layouts/header :: header(title='스터디')}"></div>
+
+
+<!-- Content -->
+<section class="container mt-5">
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-outline-primary" th:href="@{/study/new}">새 스터디 생성</a>
+    </div>
+    <div class="row g-4 mt-1">
+        <div class=" col-lg-4 col-md-6 col-sm-12 " th:each="study : ${studies}" th:object="${study}">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="*{title}">스터디 제목</h5>
+                    <p class="card-text" th:text="*{shortDesc}">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a th:href="@{/study/{id}(id = *{id})}" class="btn btn-outline-secondary">스터디 보기</a>
+                </div>
+            </div>
+        </div>
+        <div class=" col-lg-4 col-md-6 col-sm-12  ">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h5 class="card-title">스터디 제목</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-secondary">스터디 보기</a>
+                </div>
+            </div>
+        </div>
+        <div class=" col-lg-4 col-md-6 col-sm-12  ">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h5 class="card-title">스터디 제목</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-secondary">스터디 보기</a>
+                </div>
+            </div>
+        </div>
+        <div class=" col-lg-4 col-md-6 col-sm-12  ">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h5 class="card-title">스터디 제목</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-secondary">스터디 보기</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</body>
+</html>
