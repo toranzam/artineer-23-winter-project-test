@@ -48,8 +48,9 @@
                     <li th:each="number : ${dto.pageNumList}" class="page-item"><a class="page-link"
                                                                                    th:href="@{/articles(page=${number}, size=10)}"
                                                                                    th:text="${number}">1</a></li>
-                    <li th:if="${dto.next}" class="page-item"><a class="page-link"
-                                                                 th:href="@{/articles(page=${dto.nextPage})}">다음</a>
+                    <li class="page-item"><a class="page-link"
+                                             th:if="${dto.next}"
+                                             th:href="@{/articles(page=${dto.nextPage})}">다음</a>
                     </li>
                 </ul>
             </nav>

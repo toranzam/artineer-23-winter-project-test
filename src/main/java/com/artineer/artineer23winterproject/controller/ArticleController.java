@@ -1,7 +1,7 @@
 package com.artineer.artineer23winterproject.controller;
 
 import com.artineer.artineer23winterproject.dto.ArticleDto;
-import com.artineer.artineer23winterproject.dto.ArticlePageDto;
+import com.artineer.artineer23winterproject.dto.PageDto;
 import com.artineer.artineer23winterproject.dto.ArticleResponseDto;
 import com.artineer.artineer23winterproject.entity.Article;
 import com.artineer.artineer23winterproject.repository.ArticleRepository;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -41,20 +40,20 @@ public class ArticleController {
 //    }
 
     @GetMapping("/articles")
-    public String showArticleList(Model model, ArticlePageDto articlePageDto) {
+    public String showArticleList(Model model, PageDto pageDto) {
 
 //        List<Article> articles = articleRepository.findAll();
 
         Pageable pageable = PageRequest.of(
-                articlePageDto.getPage() -1,
-                articlePageDto.getSize(),
+                pageDto.getPage() -1,
+                pageDto.getSize(),
                 Sort.by("id").descending());
 
         Page<Article> articles = articleRepository.findAll(pageable);
 
 
         ArticleResponseDto articleResponseDto = ArticleResponseDto.builder()
-                .articlePageDto(articlePageDto)
+                .pageDto(pageDto)
                 .total(articleRepository.count())
                 .build();
 

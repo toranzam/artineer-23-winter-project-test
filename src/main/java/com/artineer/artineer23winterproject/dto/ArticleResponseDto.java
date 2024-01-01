@@ -12,27 +12,59 @@ public class ArticleResponseDto {
 
     private List<Integer> pageNumList;
 
-    private ArticlePageDto articleDto;
+    private PageDto articleDto;
 
     private boolean prev, next;
 
-    private int prevPage, nextPage, totalPage, current;
+    private int prevPage, nextPage, totalPage;
+
+//    @Builder
+//    public ArticleResponseDto(PageDto pageDto, long total){
+//        this.articleDto = pageDto;
+//        this.totalPage = (int) total;
+//
+//        int end = (int)(Math.ceil((double) pageDto.getPage() / 10)) * 10;
+//
+//        int start = end - 4;
+//
+//        int last = (int)(Math.ceil((total/(double) pageDto.getSize())));
+//
+//        end = end > last ? last : end;
+//
+//        this.prev = start > 1;
+//
+//        this.next = totalPage > end * pageDto.getSize();
+//
+//        this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+//
+//        this.prevPage = prev ? start - 1 : 0;
+//
+//        this.nextPage = next ? end + 1 : 0;
+//
+//        System.out.println();
+//
+//    }
 
     @Builder
-    public ArticleResponseDto(ArticlePageDto articlePageDto, long total){
-        this.articleDto = articlePageDto;
+    public ArticleResponseDto(PageDto pageDto, long total){
+        this.articleDto = pageDto;
         this.totalPage = (int) total;
 
-        int end = (int)(Math.ceil((double) articlePageDto.getPage() / 10)) * 10;
+        int showPages = 10;
 
-        int start = end - 9;
+        int group = (int) Math.ceil((double) pageDto.getPage() / showPages);
 
-        int last = (int)(Math.ceil((total/(double)articlePageDto.getSize())));
+        int start = (group - 1) * showPages + 1;
+
+        int end = group * showPages;
+
+        int last = (int)(Math.ceil((total/(double) pageDto.getSize())));
+
         end = end > last ? last : end;
 
         this.prev = start > 1;
 
-        this.next = totalPage > end * articlePageDto.getSize();
+        this.next = totalPage > end * pageDto.getSize();
 
         this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
@@ -40,6 +72,7 @@ public class ArticleResponseDto {
 
         this.nextPage = next ? end + 1 : 0;
 
+        System.out.println();
 
     }
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticlePageDto {
+public class PageDto {
     @Builder.Default
     private int page = 1;
 
