@@ -1,10 +1,7 @@
 package com.artineer.artineer23winterproject.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,9 +25,12 @@ public class Study {
 
     private String shortDesc;
 
+    @Lob
     private String fullDesc;
 
     private LocalDateTime localDateTime;
+
+    private boolean Published;
 
 
 

@@ -27,6 +27,7 @@
             </div>
             <div class="d-grid">
                 <button type="button" onclick="sendNewArticle()" class="btn btn-outline-primary">Submit</button>
+<!--                <button type="submit" class="btn btn-outline-primary">Submit</button>-->
             </div>
         </form>
     </div>
@@ -34,36 +35,79 @@
 
 <script>
     const sendNewArticle = () => {
-        // 폼 데이터 추출
-        const formData = new FormData(document.getElementById('articleForm'));
+        // 각 입력 필드의 값을 추출하여 JavaScript 객체 생성
+        const title = document.getElementById('inputTitle').value;
+        const content = document.getElementById('inputContent').value;
+
+        const articleData = {
+            title: title,
+            content: content
+        };
+
+        // JavaScript 객체를 JSON 문자열로 변환
+        const jsonData = JSON.stringify(articleData);
 
         // fetch로 POST 요청 보내기
         fetch('/api/articles/new', {
             method: 'POST',
-            body: formData,
+            body: jsonData,
             headers: {
-                // 필요하다면 헤더 설정
-                // 'Content-Type': 'application/json',
+                'Content-Type': 'application/json', // Content-Type 헤더 설정
             },
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('네트워크 응답이 정상이 아닙니다');
                 }
+                // JSON 형태의 응답을 JavaScript 객체로 변환
                 return response.json();
             })
             .then(data => {
-                // 성공적으로 응답을 받았을 때 수행할 작업
-                console.log('New article created:', data);
+                // 응답을 성공적으로 받았을 때 수행할 작업
+                console.log('새로운 글이 생성되었습니다:', data);
 
                 // 리다이렉트
-                window.location.href= '/articles/test'
+                window.location.href = '/articles/test';
             })
             .catch(error => {
                 // 오류가 발생했을 때 수행할 작업
-                console.log('Error creating new article:', error);
+                console.log('새 글 생성 중 오류 발생:', error);
             });
     };
+
+
+    // const sendNewArticle = () => {
+    //     // 폼 데이터 추출
+    //     const formData = new FormData(document.getElementById('articleForm'));
+    //
+    //     // fetch로 POST 요청 보내기
+    //     fetch('/api/articles/new', {
+    //         method: 'POST',
+    //         body: formData,
+    //         // headers: {
+    //         //     // 필요하다면 헤더 설정
+    //         //     'Content-Type': 'application/json',
+    //         // },
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             // json타입을 객체로 데이터 변환
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             // 성공적으로 응답을 받았을 때 수행할 작업
+    //             console.log('New article created:', data);
+    //
+    //             // 리다이렉트
+    //             window.location.href= '/articles/test'
+    //         })
+    //         .catch(error => {
+    //             // 오류가 발생했을 때 수행할 작업
+    //             console.log('Error creating new article:', error);
+    //         });
+    // };
 </script>
 
 </body>

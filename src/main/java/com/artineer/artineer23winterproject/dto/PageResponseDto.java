@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
-public class ArticleResponseDto {
+public class PageResponseDto {
 
     private List<Integer> pageNumList;
 
-    private PageDto articleDto;
+    private PageDto pageDto;
 
     private boolean prev, next;
 
@@ -46,8 +46,8 @@ public class ArticleResponseDto {
 //    }
 
     @Builder
-    public ArticleResponseDto(PageDto pageDto, long total){
-        this.articleDto = pageDto;
+    public PageResponseDto(PageDto pageDto, long total){
+        this.pageDto = pageDto;
         this.totalPage = (int) total;
 
         int showPages = 10;

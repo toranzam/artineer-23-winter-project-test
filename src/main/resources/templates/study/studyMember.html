@@ -44,8 +44,10 @@
             <div th:replace="~{layouts/study/studyNav :: studyNav(${study.id})}"></div>
 
             <hr class="mt-3">
-            <div id="study-fullDesc">
-                <div th:utext="*{fullDesc}"></div>
+
+            <!-- member list-->
+            <div>
+
             </div>
         </div>
 
@@ -61,15 +63,6 @@
 
     </div>
 </section>
-
-<script src="/node_modules/quill/dist/quill.min.js"></script>
-<script defer>
-    var quill = new Quill('#study-fullDesc', {
-        theme: 'bubble',
-        readOnly: true
-    });
-</script>
-
 
 
 </body>

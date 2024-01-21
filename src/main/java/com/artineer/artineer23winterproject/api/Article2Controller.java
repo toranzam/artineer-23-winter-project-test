@@ -1,11 +1,11 @@
-package com.artineer.artineer23winterproject.controller;
+package com.artineer.artineer23winterproject.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ArticleApiController {
+public class Article2Controller {
 
 
     @GetMapping("/articles/test")

@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/quill/dist/quill.snow.css">
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="/node_modules/jquery/dist/jquery.min.js" defer></script>
+
 </head>
 <body>
 
@@ -22,14 +24,17 @@
                 <div id="titleHelp" class="form-text">스터디 제목을 30자 이내로 적어주세요.</div>
             </div>
             <div class="mb-3">
-                <label for="shortDesc" class="form-label">내용</label>
+                <label for="shortDesc" class="form-label">짧은소개</label>
                 <textarea class="form-control" id="shortDesc" name="shortDesc"></textarea>
                 <div id="shortDescHelp" class="form-text">스터디를 짧게 설명해주세요.</div>
             </div>
             <div class="mb-3">
                 <label for="fullDesc" class="form-label">내용</label>
-                <textarea class="form-control" id="fullDesc" name="fullDesc"></textarea>
-                <div id="fullDescHelp" class="form-text">스터디를 짧게 설명해주세요.</div>
+                <div id="fullDesc" style="height: 375px"></div>
+                <input type="hidden" id="quill_html" name="fullDesc">
+
+<!--                <textarea class="form-control" id="fullDesc" name="fullDesc"></textarea>-->
+                <div id="fullDescHelp" class="form-text">스터디를 구체적으로 설명해 주세요.</div>
             </div>
 
             <div class="d-grid">
@@ -39,6 +44,24 @@
     </div>
 </section>
 
+<!-- Quill js import -->
+<script src="/node_modules/quill/dist/quill.min.js"></script>
+<script defer>
+    var quill = new Quill('#fullDesc', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: '내용을 입력해주세요',
+        theme: 'snow'  // or 'bubble'
+    });
+    quill.on('text-change', () => {
+        document.getElementById("quill_html").value = quill.root.innerHTML
+    })
+</script>
 
 </body>
 </html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div class="col-12 d-flex gap-2" th:fragment="studyNav (studyId)">
+    <a class="text-primary text-decoration-none" th:href="@{/study/{id}(id = ${studyId})}"><i class="bi bi-book-half"></i>스터디</a>
+    <a class="text-primary text-decoration-none" th:href="@{/study/{id}/member(id = ${studyId})}"><i class="bi bi-person-fill"></i>구성원</a>
+    <a class="text-primary text-decoration-none" href="#"><i class="bi bi-gear-fill"></i>설정</a>
+</div>
+
+</body>
+</html>

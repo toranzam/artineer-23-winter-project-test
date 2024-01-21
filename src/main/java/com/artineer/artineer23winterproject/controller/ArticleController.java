@@ -1,8 +1,10 @@
 package com.artineer.artineer23winterproject.controller;
 
+import com.artineer.artineer23winterproject.auth.CurrentUser;
 import com.artineer.artineer23winterproject.dto.ArticleDto;
 import com.artineer.artineer23winterproject.dto.PageDto;
-import com.artineer.artineer23winterproject.dto.ArticleResponseDto;
+import com.artineer.artineer23winterproject.dto.PageResponseDto;
+import com.artineer.artineer23winterproject.entity.Account;
 import com.artineer.artineer23winterproject.entity.Article;
 import com.artineer.artineer23winterproject.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,14 +54,14 @@ public class ArticleController {
         Page<Article> articles = articleRepository.findAll(pageable);
 
 
-        ArticleResponseDto articleResponseDto = ArticleResponseDto.builder()
+        PageResponseDto pageResponseDto = PageResponseDto.builder()
                 .pageDto(pageDto)
                 .total(articleRepository.count())
                 .build();
 
 
 
-        model.addAttribute("dto" ,articleResponseDto);
+        model.addAttribute("dto" , pageResponseDto);
         model.addAttribute("articles" ,articles);
 
         return "article/articles";
@@ -73,12 +75,14 @@ public class ArticleController {
 
 
     @PostMapping("/articles/new")
-    public String createNewArticle(ArticleDto articleDto) {
+    public String createNewArticle(ArticleDto articleDto, @CurrentUser Account account) {
 
         Article article = Article.builder()
                 .title(articleDto.getTitle())
                 .content(articleDto.getContent())
                 .localDateTime(LocalDateTime.now())
+                .author(account.getUsername())
+                .account(account)
                 .build();
 
         articleRepository.save(article);
@@ -94,9 +98,11 @@ public class ArticleController {
         if(byId.isEmpty()){
             throw new IllegalArgumentException("보여줄 " + id + "번 게시물이 존재하지않습니다.");
         }
+
         Article article = byId.get();
 
         model.addAttribute("article", article);
+
 
         return "article/articleDetail";
 

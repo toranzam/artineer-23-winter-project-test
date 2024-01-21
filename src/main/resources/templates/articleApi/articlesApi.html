@@ -11,7 +11,7 @@
 
 <div th:replace="~{layouts/nav :: nav}"></div>
 
-<div th:replace="~{layouts/header :: header(title='게시판')}"></div>
+<div th:replace="~{layouts/header :: header(title='Api게시판')}"></div>
 
 <!-- Content -->
 <section class="container">
@@ -39,42 +39,41 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         loadArticles();
-
-        function loadArticles() {
-            fetch('/api/articles')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    populateTable(data);
-                })
-                .catch(error => {
-                    console.error('Error loading articles:', error);
-                });
-        }
-
-        function populateTable(articles) {
-            var tableBody = document.getElementById('articleTable').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = '';
-
-            articles.forEach(function (article, index) {
-
-
-                var row = '<tr>' +
-                    '<th scope="row">' + (index + 1) + '</th>' +
-                    '<td><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black" style="max-width: 200px" ' +
-                    'href="/articles/' + article.id + '">' + article.title + '</a></td>' +
-                    '<td><a href="#">' + article.author + '</a></td>' +
-                    '<td>' + article.localDateTime.toString() + '</td>' +
-                    '</tr>';
-                tableBody.innerHTML += row;
-            });
-
-        }
     });
+    function loadArticles() {
+        fetch('/api/articles')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                populateTable(data);
+            })
+            .catch(error => {
+                console.error('Error loading articles:', error);
+            });
+    }
+
+    function populateTable(articles) {
+        var tableBody = document.getElementById('articleTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';
+
+        articles.forEach(function (article, index) {
+
+
+            var row = '<tr>' +
+                '<th scope="row">' + (index + 1) + '</th>' +
+                '<td><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black" style="max-width: 200px" ' +
+                'href="/articles/' + article.id + '">' + article.title + '</a></td>' +
+                '<td><a href="#">' + article.author + '</a></td>' +
+                '<td>' + article.localDateTime.toString() + '</td>' +
+                '</tr>';
+            tableBody.innerHTML += row;
+        });
+
+    }
 </script>
 
 </body>

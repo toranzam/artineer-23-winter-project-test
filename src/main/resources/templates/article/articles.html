@@ -34,7 +34,7 @@
                 <th scope="row" th:text="*{id}">1</th>
                 <td><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black"
                        style="max-width: 200px" th:href="@{/articles/{id}(id = *{id})}" th:text="*{title}">제목</a></td>
-                <td><a href="#" th:text="*{author}">닉네임</a></td>
+                <td><a href="#" th:text="*{account.username}">닉네임</a></td>
                 <td th:text="*{#temporals.format(localDateTime, 'yyyy-MM-dd')}">2023.2.2</td>
             </tr>
             </tbody>
@@ -46,6 +46,8 @@
                                                                  th:href="@{/articles(page=${dto.prevPage})}">이전</a>
                     </li>
                     <li th:each="number : ${dto.pageNumList}" class="page-item"><a class="page-link"
+                                                                                   th:classappend="${dto.pageDto.page eq number} ? active"
+
                                                                                    th:href="@{/articles(page=${number}, size=10)}"
                                                                                    th:text="${number}">1</a></li>
                     <li class="page-item"><a class="page-link"

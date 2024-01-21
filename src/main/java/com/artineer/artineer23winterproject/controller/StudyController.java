@@ -66,5 +66,15 @@ public class StudyController {
         return "/study/studyDetail";
     }
 
+    @GetMapping("/study/{id}/member")
+    public String showStudyMember(Model model, @PathVariable("id") Long id) {
+        Study study = studyRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+
+        model.addAttribute("study", study);
+
+        return "/study/studyMember";
+    }
+
+
 
 }
