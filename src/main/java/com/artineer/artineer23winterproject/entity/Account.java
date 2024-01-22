@@ -8,6 +8,7 @@ import org.springframework.data.repository.cdi.Eager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Builder
@@ -29,4 +30,6 @@ public class Account {
     @OneToMany(mappedBy = "account")
     @Builder.Default
     private List<Article> article = new ArrayList<>();
+
+
 }

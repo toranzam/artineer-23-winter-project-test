@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -91,7 +92,9 @@ public class ArticleController {
 
 
     @GetMapping("/articles/{id}")
-    public String showArticleDetail(@PathVariable("id") Long id, Model model) {
+    public String showArticleDetail(@PathVariable("id") Long id,
+                                    @CurrentUser Account account,
+                                    Model model) {
         Optional<Article> byId = articleRepository.findById(id);
 
         if(byId.isEmpty()){
@@ -101,6 +104,7 @@ public class ArticleController {
         Article article = byId.get();
 
         model.addAttribute("article", article);
+        model.addAttribute("isOwner", article.getAccount().equals(account));
 
 
         return "article/articleDetail";
@@ -109,7 +113,12 @@ public class ArticleController {
 
 
     @GetMapping("/articles/edit/{id}")
-    public String showArticleEdit(@PathVariable("id") Long id, ArticleDto articleDto, Model model){
+    public String showArticleEdit(@PathVariable("id") Long id,
+                                  @CurrentUser Account account,
+                                  ArticleDto articleDto,
+                                  Model model
+                                  ){
+
         Optional<Article> byId = articleRepository.findById(id);
 
         if(byId.isEmpty()){
@@ -117,6 +126,10 @@ public class ArticleController {
         }
 
         Article article = byId.get();
+
+        if (!article.getAccount().equals(account)){
+            throw new AccessDeniedException("수정할 권한이 없습니다.");
+        }
 
         model.addAttribute("article", article);
 
@@ -126,7 +139,9 @@ public class ArticleController {
 
     @Transactional
     @PostMapping("/articles/edit/{id}")
-    public String editArticle(@PathVariable("id") Long id, ArticleDto articleDto ){
+    public String editArticle(@PathVariable("id") Long id,
+                              @CurrentUser Account account,
+                              ArticleDto articleDto ){
         Optional<Article> byId = articleRepository.findById(id);
 
         if(byId.isEmpty()){
@@ -135,6 +150,10 @@ public class ArticleController {
 
         Article article = byId.get();
 
+        if (!article.getAccount().equals(account)){
+            throw new AccessDeniedException("수정할 권한이 없습니다.");
+        }
+
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
 
@@ -142,7 +161,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/delete/{id}")
-    public String deleteArticle(@PathVariable("id")Long id){
+    public String deleteArticle(@PathVariable("id")Long id,
+                                @CurrentUser Account account){
         Optional<Article> byId = articleRepository.findById(id);
 
         if(byId.isEmpty()){
@@ -150,6 +170,10 @@ public class ArticleController {
         }
 
         Article article = byId.get();
+
+        if (!article.getAccount().equals(account)){
+            throw new AccessDeniedException("삭제할 권한이 없습니다.");
+        }
 
         articleRepository.delete(article);
 
