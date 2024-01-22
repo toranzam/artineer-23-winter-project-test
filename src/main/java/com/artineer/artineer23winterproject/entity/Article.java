@@ -22,9 +22,8 @@ public class Article {
 
     private String title;
 
+    @Lob
     private String content;
-
-    private String author;
 
     private LocalDateTime localDateTime;
 

@@ -24,7 +24,9 @@ public class CustomSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/articles/**", "/articles/test/**", "/study/**" ,"/signUp" ,"/api/articles/**" ).permitAll()
+                        .requestMatchers("/","/articles",
+                                "/study/**" ,"/signUp" ,
+                                "/api/articles", "/articles/test").permitAll()
                         .anyRequest().authenticated()
                 )
 

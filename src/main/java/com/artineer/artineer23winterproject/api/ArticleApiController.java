@@ -8,6 +8,7 @@ import com.artineer.artineer23winterproject.entity.Account;
 import com.artineer.artineer23winterproject.entity.Article;
 import com.artineer.artineer23winterproject.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+
 public class ArticleApiController {
 
     private final ArticleRepository articleRepository;
@@ -35,7 +37,7 @@ public class ArticleApiController {
                         .title(m.getTitle())
                         .content(m.getContent())
                         .localDateTime(m.getLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                        .author(m.getAuthor())
+                        .author(m.getAccount().getUsername())
                         .build())
                 .collect(Collectors.toList());
 
@@ -72,7 +74,7 @@ public class ArticleApiController {
 //    }
 
     @PostMapping("/api/articles/new")
-    public ResponseEntity<Article> createArticle(@RequestBody ArticleRequestDto articleRequestDto,
+    public ResponseEntity<String> createArticle(@RequestBody ArticleRequestDto articleRequestDto,
                                                  @CurrentUser Account account) {
 
         Article article = Article.builder()
@@ -82,11 +84,11 @@ public class ArticleApiController {
                 .account(account)
                 .build();
 
-        articleRepository.save(article);
+        Article saved = articleRepository.save(article);
 
         System.out.println("title = " + articleRequestDto.getTitle() + ", content = " + articleRequestDto.getContent());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(article);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.valueOf((saved.getId())));
 
     }
 

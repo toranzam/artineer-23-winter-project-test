@@ -81,7 +81,6 @@ public class ArticleController {
                 .title(articleDto.getTitle())
                 .content(articleDto.getContent())
                 .localDateTime(LocalDateTime.now())
-                .author(account.getUsername())
                 .account(account)
                 .build();
 
