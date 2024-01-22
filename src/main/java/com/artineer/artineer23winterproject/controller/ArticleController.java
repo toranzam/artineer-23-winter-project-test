@@ -32,20 +32,8 @@ public class ArticleController {
     private final ArticleRepository articleRepository;
 
 
-//    @GetMapping("/articles")
-//    public String showArticleList(Model model) {
-//
-//        List<Article> articles = articleRepository.findAll();
-//
-//        model.addAttribute("articles" ,articles);
-//
-//        return "article/articles";
-//    }
-
     @GetMapping("/articles")
     public String showArticleList(Model model, PageDto pageDto) {
-
-//        List<Article> articles = articleRepository.findAll();
 
         Pageable pageable = PageRequest.of(
                 pageDto.getPage() -1,
@@ -54,19 +42,17 @@ public class ArticleController {
 
         Page<Article> articles = articleRepository.findAll(pageable);
 
-
         PageResponseDto pageResponseDto = PageResponseDto.builder()
                 .pageDto(pageDto)
                 .total(articleRepository.count())
                 .build();
-
-
 
         model.addAttribute("dto" , pageResponseDto);
         model.addAttribute("articles" ,articles);
 
         return "article/articles";
     }
+
 
     @GetMapping("/articles/new")
     public String showNewArticleForm() {
@@ -106,7 +92,6 @@ public class ArticleController {
         model.addAttribute("article", article);
         model.addAttribute("isOwner", article.getAccount().equals(account));
 
-
         return "article/articleDetail";
 
     }
@@ -115,7 +100,6 @@ public class ArticleController {
     @GetMapping("/articles/edit/{id}")
     public String showArticleEdit(@PathVariable("id") Long id,
                                   @CurrentUser Account account,
-                                  ArticleDto articleDto,
                                   Model model
                                   ){
 

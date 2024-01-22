@@ -3,12 +3,9 @@ package com.artineer.artineer23winterproject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.repository.cdi.Eager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Builder
