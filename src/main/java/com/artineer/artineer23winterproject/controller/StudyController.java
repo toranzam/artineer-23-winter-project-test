@@ -1,7 +1,9 @@
 package com.artineer.artineer23winterproject.controller;
 
 
+import com.artineer.artineer23winterproject.auth.CurrentUser;
 import com.artineer.artineer23winterproject.dto.StudyDto;
+import com.artineer.artineer23winterproject.entity.Account;
 import com.artineer.artineer23winterproject.entity.Study;
 import com.artineer.artineer23winterproject.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +45,15 @@ public class StudyController {
     }
 
     @PostMapping("/study/new")
-    public String CreateNewStudy(StudyDto studyDto) {
+    public String CreateNewStudy(StudyDto studyDto,
+                                 @CurrentUser Account account) {
 
         Study study = Study.builder()
                 .title(studyDto.getTitle())
                 .shortDesc(studyDto.getShortDesc())
                 .fullDesc(studyDto.getFullDesc())
                 .localDateTime(LocalDateTime.now())
+                .manager(account)
                 .build();
 
         studyRepository.save(study);
@@ -58,10 +62,13 @@ public class StudyController {
     }
 
     @GetMapping("/study/{id}")
-    public String showStudyDetail(Model model, @PathVariable("id") Long id) {
+    public String showStudyDetail(@PathVariable("id") Long id,
+                                  @CurrentUser Account account,
+                                  Model model) {
         Study study = studyRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 
         model.addAttribute("study", study);
+        model.addAttribute("isOwner", study.getManager().equals(account));
 
         return "/study/studyDetail";
     }
