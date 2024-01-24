@@ -2,13 +2,10 @@ package com.artineer.artineer23winterproject.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Bean;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,6 +18,12 @@ public class Study {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account manager;
+
+    @ManyToMany
+    private List<Account> members;
+
     private String title;
 
     private String shortDesc;
@@ -30,7 +33,9 @@ public class Study {
 
     private LocalDateTime localDateTime;
 
+    @Setter
     private boolean Published;
+
 
 
 
