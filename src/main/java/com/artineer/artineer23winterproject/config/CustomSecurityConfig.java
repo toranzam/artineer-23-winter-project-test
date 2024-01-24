@@ -25,8 +25,9 @@ public class CustomSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/","/articles",
-                                "/study/**" ,"/signUp" ,
-                                "/api/articles", "/articles/test").permitAll()
+                                "/study" ,"/signUp" ,
+                                "/api/articles", "/articles/test"
+                                ).permitAll()
                         .anyRequest().authenticated()
                 )
 
