@@ -34,7 +34,7 @@ public class Study {
     private LocalDateTime localDateTime;
 
     @Setter
-    private boolean Published;
+    private boolean published;
 
 
 

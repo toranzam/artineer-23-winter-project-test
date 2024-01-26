@@ -75,7 +75,7 @@ public class ArticleApiController {
 
     @PostMapping("/api/articles/new")
     public ResponseEntity<String> createArticle(@RequestBody ArticleRequestDto articleRequestDto,
-                                                 @CurrentUser Account account) {
+                                                @CurrentUser Account account) {
 
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())

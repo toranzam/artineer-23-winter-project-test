@@ -54,6 +54,7 @@ public class StudyController {
                 .fullDesc(studyDto.getFullDesc())
                 .localDateTime(LocalDateTime.now())
                 .manager(account)
+                .published(true)
                 .build();
 
         studyRepository.save(study);
