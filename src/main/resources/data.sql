@@ -1,0 +1,1 @@
+insert into account values (1, '$2a$10$LkT1p3I01vOSs5PJeQZwPeJlXPJMbWcdfWFOXLsA4ZcdQClObFWgi', '1')
