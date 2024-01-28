@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Study {
 
     @Id
@@ -33,9 +34,15 @@ public class Study {
 
     private LocalDateTime localDateTime;
 
-    @Setter
     private boolean published;
 
+    public void openStudy() {
+        this.published = true;
+    }
+
+    public void closeStudy() {
+        this.published = false;
+    }
 
 
 

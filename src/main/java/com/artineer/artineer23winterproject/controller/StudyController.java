@@ -8,6 +8,7 @@ import com.artineer.artineer23winterproject.entity.Study;
 import com.artineer.artineer23winterproject.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,6 +84,28 @@ public class StudyController {
         return "/study/studyMember";
     }
 
+    @GetMapping("/study/{id}/published")
+    public String changePublished(@PathVariable("id") Long id,
+                                  @CurrentUser Account account) {
+
+        Study study = studyRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+
+        if (!study.getManager().equals(account)){
+            throw new AccessDeniedException("접근 권한이 없는 사용자입니다.");
+        }
+
+        if (!study.isPublished()){
+            study.openStudy();
+            studyRepository.save(study);
+        }else {
+            study.closeStudy();
+            studyRepository.save(study);
+        }
+
+        return "redirect:/study/" + id;
+
+
+    }
 
 
 }
