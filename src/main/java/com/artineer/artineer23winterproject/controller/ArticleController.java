@@ -48,7 +48,7 @@ public class ArticleController {
                 .build();
 
         model.addAttribute("dto" , pageResponseDto);
-        model.addAttribute("articles" ,articles);
+        model.addAttribute("articles" , articles);
 
         return "article/articles";
     }
@@ -81,13 +81,9 @@ public class ArticleController {
     public String showArticleDetail(@PathVariable("id") Long id,
                                     @CurrentUser Account account,
                                     Model model) {
-        Optional<Article> byId = articleRepository.findById(id);
 
-        if(byId.isEmpty()){
-            throw new IllegalArgumentException("보여줄 " + id + "번 게시물이 존재하지않습니다.");
-        }
-
-        Article article = byId.get();
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("보여줄 " + id + "번 게시물이 존재하지않습니다."));
 
         model.addAttribute("article", article);
         model.addAttribute("isOwner", article.getAccount().equals(account));
@@ -103,13 +99,8 @@ public class ArticleController {
                                   Model model
                                   ){
 
-        Optional<Article> byId = articleRepository.findById(id);
-
-        if(byId.isEmpty()){
-            throw new IllegalArgumentException("수정할 " + id + "번 게시물이 존재하지않습니다.");
-        }
-
-        Article article = byId.get();
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("수정할 " + id + "번 게시물이 존재하지않습니다."));
 
         if (!article.getAccount().equals(account)){
             throw new AccessDeniedException("수정할 권한이 없습니다.");
@@ -126,13 +117,9 @@ public class ArticleController {
     public String editArticle(@PathVariable("id") Long id,
                               @CurrentUser Account account,
                               ArticleDto articleDto ){
-        Optional<Article> byId = articleRepository.findById(id);
 
-        if(byId.isEmpty()){
-            throw new IllegalArgumentException("수정할 " + id + "번 게시물이 존재하지않습니다.");
-        }
-
-        Article article = byId.get();
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("수정할 " + id + "번 게시물이 존재하지않습니다."));
 
         if (!article.getAccount().equals(account)){
             throw new AccessDeniedException("수정할 권한이 없습니다.");
@@ -147,13 +134,8 @@ public class ArticleController {
     @GetMapping("/articles/delete/{id}")
     public String deleteArticle(@PathVariable("id")Long id,
                                 @CurrentUser Account account){
-        Optional<Article> byId = articleRepository.findById(id);
-
-        if(byId.isEmpty()){
-            throw new IllegalArgumentException("삭제할 " + id + "번 게시물이 존재하지않습니다.");
-        }
-
-        Article article = byId.get();
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("삭제할 " + id + "번 게시물이 존재하지않습니다."));
 
         if (!article.getAccount().equals(account)){
             throw new AccessDeniedException("삭제할 권한이 없습니다.");
