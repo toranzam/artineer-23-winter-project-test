@@ -13,7 +13,6 @@
 
 <div th:replace="~{layouts/header :: header(title='게시판')}"></div>
 
-
 <!-- Content -->
 <section class="container">
     <div class=" mt-5 ">
@@ -32,8 +31,10 @@
             <tbody>
             <tr th:each="article : ${articles}" th:object="${article}">
                 <th scope="row" th:text="*{id}">1</th>
-                <td><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black"
+                <td th:if="${param.page == null && param.size == null}"><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black"
                        style="max-width: 200px" th:href="@{/articles/{id}(id = *{id})}" th:text="*{title}">제목</a></td>
+                <td th:if="${param.page != null && param.size != null}"><a class="d-block text-truncate link-underline link-underline-opacity-0 text-black"
+                       style="max-width: 200px" th:href="@{/articles/{id}(id = *{id}, page=${param.page}, size=${param.size})}" th:text="*{title}">제목</a></td>
                 <td><a href="#" th:text="*{account.username}">닉네임</a></td>
                 <td th:text="*{#temporals.format(localDateTime, 'yyyy-MM-dd')}">2023.2.2</td>
             </tr>
@@ -45,10 +46,15 @@
                     <li th:if="${dto.prev}" class="page-item"><a class="page-link"
                                                                  th:href="@{/articles(page=${dto.prevPage})}">이전</a>
                     </li>
+<!--                    <li th:each="number : ${dto.pageNumList}" class="page-item"><a class="page-link"-->
+<!--                                                                                   th:classappend="${dto.pageDto.page eq number} ? active"-->
+
+<!--                                                                                   th:href="@{/articles(page=${number}, size=10)}"-->
+<!--                                                                                   th:text="${number}">1</a></li>-->
                     <li th:each="number : ${dto.pageNumList}" class="page-item"><a class="page-link"
                                                                                    th:classappend="${dto.pageDto.page eq number} ? active"
 
-                                                                                   th:href="@{/articles(page=${number}, size=10)}"
+                                                                                   th:href="@{/articles(page=${number}, size=${dto.pageDto.getSize()})}"
                                                                                    th:text="${number}">1</a></li>
                     <li class="page-item"><a class="page-link"
                                              th:if="${dto.next}"
